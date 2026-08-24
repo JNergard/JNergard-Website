@@ -3,19 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#0c0a13" />
+  <meta name="description" content="James Nergard — Software Engineering student at Embry-Riddle Aeronautical University. Robotics, embedded systems, and Python/C++ projects." />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="James Nergard | Software Engineering Resume" />
+  <meta property="og:description" content="Software Engineering student at Embry-Riddle Aeronautical University. Robotics, embedded systems, and Python/C++ projects." />
+  <meta name="twitter:card" content="summary" />
 
   <title>James Nergard | Software Engineering Resume</title>
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230c0a13'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='26' font-weight='700' fill='%238b5cf6' text-anchor='middle'%3EJN%3C/text%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
 
-  <header>
-    <nav>
-      <h2>James Nergard</h2>
+  <a class="skip-link" href="#main-content">Skip to content</a>
 
-      <div class="nav-links">
+  <header>
+    <nav aria-label="Primary" class="nav-pill">
+      <a href="#top" class="nav-mark" aria-label="James Nergard — back to top">JN</a>
+
+      <div class="nav-links" id="nav-links">
         <a href="#about">About</a>
         <a href="#projects">Projects</a>
         <a href="#experience">Experience</a>
@@ -23,143 +39,243 @@
         <a href="#athletics">Athletics</a>
         <a href="#contact">Contact</a>
       </div>
+
+      <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Toggle navigation menu">
+        <span></span><span></span><span></span>
+      </button>
     </nav>
   </header>
 
-  <section class="hero pinned-hero">
-    <p class="tagline">Software Engineering Student • Robotics • Embedded Systems • Python/C++</p>
+  <main id="main-content">
 
-    <h1>James Nergard</h1>
+  <section class="hero" id="top">
+    <div class="hero-inner">
+      <p class="eyebrow reveal">Software Engineering Student — Robotics · Embedded Systems · Python/C++</p>
 
-    <p class="hero-text">
-      Software Engineering student at Embry-Riddle Aeronautical University
-      with a 4.0 GPA. I enjoy building practical software, robotics systems,
-      and tools that solve real problems.
-    </p>
+      <h1 class="reveal">James Nergard</h1>
 
-    <div class="hero-buttons">
-      <a href="#projects" class="button">View Projects</a>
-      <a href="resume.pdf" class="button secondary" target="_blank">View Resume</a>
+      <p class="hero-text reveal">
+        Software Engineering student at Embry-Riddle Aeronautical University
+        with a 4.0 GPA. I enjoy building practical software, robotics systems,
+        and tools that solve real problems.
+      </p>
+
+      <div class="hero-buttons reveal">
+        <a href="#projects" class="button primary">
+          <span>View projects</span>
+          <span class="button-icon" aria-hidden="true">↗</span>
+        </a>
+        <a href="resume.pdf" class="link-cta" target="_blank" rel="noopener">
+          Download résumé <span aria-hidden="true">→</span>
+        </a>
+      </div>
     </div>
   </section>
 
   <section id="about" class="content-section">
-    <h2>Background</h2>
+    <div class="section-head reveal">
+      <p class="eyebrow">01 — About</p>
+      <h2>Background</h2>
+    </div>
 
-    <p>
-      I am pursuing a Bachelor of Science in Software Engineering at Embry-Riddle
-      Aeronautical University in Prescott, Arizona, with an expected graduation date
-      of May 2028.
-    </p>
+    <div class="about-layout">
+      <div class="about-text reveal">
+        <p>
+          I am pursuing a Bachelor of Science in Software Engineering at Embry-Riddle
+          Aeronautical University in Prescott, Arizona, with an expected graduation date
+          of May 2028.
+        </p>
 
-    <p>
-      My background includes programming microprocessors in C, autonomous robot development in C++, Python application development,
-      engineering design in Fusion 360 and SolidWorks, and being able to work in a large team of people.
-    </p>
+        <p>
+          My background includes programming microprocessors in C, autonomous robot development in C++, Python application development,
+          engineering design in Fusion 360 and SolidWorks, and being able to work in a large team of people.
+        </p>
+      </div>
+
+      <div class="about-stats reveal">
+        <div class="stat">
+          <span class="stat-value">4.0</span>
+          <span class="stat-label">GPA</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">2028</span>
+          <span class="stat-label">Expected Graduation</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">ERAU</span>
+          <span class="stat-label">Prescott, Arizona</span>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section id="projects" class="content-section">
-    <h2>Projects</h2>
+    <div class="section-head reveal">
+      <p class="eyebrow">02 — Projects</p>
+      <h2>Selected work</h2>
+    </div>
 
     <div class="project-grid">
 
-      <div class="project-card">
-        <h3>FOIDS — File Deletion System</h3>
-        <p>
-          A Python application designed to delete excess Windows files and help clean
-          up unnecessary storage usage.
-        </p>
-        <p class="tech">Python • Windows • GitHub</p>
-        <a href="https://github.com/VicDitching/FOIDS" target="_blank">View on GitHub →</a>
-      </div>
-
-      <div class="project-card">
+      <article class="project-card project-card--featured reveal">
+        <div class="project-card-head">
+          <span class="project-index">01</span>
+          <span class="tech">C++ • GitHub • VS Code • Robotics</span>
+        </div>
         <h3>Competition Robotics</h3>
         <p>
           Served as Head of Coding for a FIRST Robotics team. Coded the robot in C++,
           used GitHub and Visual Studio Code, and contributed to a robot that won the
           2024 ASU State Finals.
         </p>
-        <p class="tech">C++ • GitHub • VS Code • Robotics</p>
-      </div>
+      </article>
 
-      <div class="project-card">
+      <article class="project-card reveal">
+        <div class="project-card-head">
+          <span class="project-index">02</span>
+          <span class="tech">Python • Windows • GitHub</span>
+        </div>
+        <h3>FOIDS — File Deletion System</h3>
+        <p>
+          A Python application designed to delete excess Windows files and help clean
+          up unnecessary storage usage.
+        </p>
+        <a href="https://github.com/VicDitching/FOIDS" target="_blank" rel="noopener">View on GitHub <span aria-hidden="true">→</span></a>
+      </article>
+
+      <article class="project-card reveal">
+        <div class="project-card-head">
+          <span class="project-index">03</span>
+          <span class="tech">Mathematics • Research • PDEs</span>
+        </div>
         <h3>PDE Research Paper</h3>
         <p>
           Worked with a professor and colleague on a research paper involving partial
           differential equations, including equations such as the heat equation and
           Schrödinger equation.
         </p>
-        <p class="tech">Mathematics • Research • PDEs</p>
-        <a href="https://doi.org/10.30919/es1573" target="_blank">View DOI →</a>
-      </div>
+        <a href="https://doi.org/10.30919/es1573" target="_blank" rel="noopener">View DOI <span aria-hidden="true">→</span></a>
+      </article>
 
     </div>
   </section>
 
   <section id="experience" class="content-section">
-    <h2>Work Experience</h2>
-
-    <div class="timeline-item">
-      <h3>Assistant Coach — Quantum Golf Program</h3>
-      <p class="date">May 2022 – July 2025 | Mesa, AZ</p>
-      <ul>
-        <li>Coordinated with different golf courses for student practice locations.</li>
-        <li>Created lesson plans for students.</li>
-        <li>Helped design and create an informative and functional website.</li>
-      </ul>
+    <div class="section-head reveal">
+      <p class="eyebrow">03 — Experience</p>
+      <h2>Work experience</h2>
     </div>
 
-    <div class="timeline-item">
-      <h3>Outside Services — Dobson Ranch Golf Course</h3>
-      <p class="date">May 2021 – May 2022 | Mesa, AZ</p>
-      <ul>
-        <li>Provided customer service for course patrons.</li>
-        <li>Communicated over radio with a team of 20+ people.</li>
-        <li>Operated and maintained golf carts, vehicles, and equipment.</li>
-      </ul>
+    <div class="timeline reveal">
+      <div class="timeline-item">
+        <div class="timeline-marker"></div>
+        <h3>Assistant Coach — Quantum Golf Program</h3>
+        <p class="date">May 2022 – July 2025 | Mesa, AZ</p>
+        <ul>
+          <li>Coordinated with different golf courses for student practice locations.</li>
+          <li>Created lesson plans for students.</li>
+          <li>Helped design and create an informative and functional website.</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-marker"></div>
+        <h3>Outside Services — Dobson Ranch Golf Course</h3>
+        <p class="date">May 2021 – May 2022 | Mesa, AZ</p>
+        <ul>
+          <li>Provided customer service for course patrons.</li>
+          <li>Communicated over radio with a team of 20+ people.</li>
+          <li>Operated and maintained golf carts, vehicles, and equipment.</li>
+        </ul>
+      </div>
     </div>
   </section>
 
   <section id="skills" class="content-section">
-    <h2>Skills</h2>
+    <div class="section-head reveal">
+      <p class="eyebrow">04 — Skills</p>
+      <h2>Skills &amp; tools</h2>
+    </div>
 
-    <div class="skills-grid">
-      <div class="skill">Python</div>
-      <div class="skill">C++</div>
-      <div class="skill">C</div>
-      <div class="skill">Arduino</div>
-      <div class="skill">ARM Assembly</div>
-      <div class="skill">GitHub</div>
-      <div class="skill">Docker</div>
-      <div class="skill">VS Code</div>
-      <div class="skill">Object-Oriented Code</div>
-      <div class="skill">Fusion 360</div>
-      <div class="skill">SolidWorks</div>
-      <div class="skill">Microsoft Office</div>
+    <div class="skills-groups">
+      <div class="skills-group reveal">
+        <h3 class="skills-group-title">Languages</h3>
+        <div class="skills-grid">
+          <div class="skill">Python</div>
+          <div class="skill">C++</div>
+          <div class="skill">C</div>
+          <div class="skill">ARM Assembly</div>
+        </div>
+      </div>
+
+      <div class="skills-group reveal">
+        <h3 class="skills-group-title">Tools &amp; Platforms</h3>
+        <div class="skills-grid">
+          <div class="skill">Arduino</div>
+          <div class="skill">GitHub</div>
+          <div class="skill">Docker</div>
+          <div class="skill">VS Code</div>
+          <div class="skill">Microsoft Office</div>
+        </div>
+      </div>
+
+      <div class="skills-group reveal">
+        <h3 class="skills-group-title">Engineering &amp; Design</h3>
+        <div class="skills-grid">
+          <div class="skill">Object-Oriented Code</div>
+          <div class="skill">Fusion 360</div>
+          <div class="skill">SolidWorks</div>
+        </div>
+      </div>
     </div>
   </section>
 
   <section id="athletics" class="content-section">
-    <h2>Athletics</h2>
+    <div class="section-head reveal">
+      <p class="eyebrow">05 — Athletics</p>
+      <h2>Athletics</h2>
+    </div>
 
-    <div class="athletics-card">
-      <h3>Embry-Riddle Men’s Golf Team</h3>
-      <p class="date">August 2024 – May 2028</p>
-      <ul>
-        <li>Commit 25+ hours per week to practice, competition, and travel.</li>
-        <li>Maintain full-time coursework while managing team responsibilities.</li>
-        <li>NAIA and GSAC Scholar Athlete Award recipient.</li>
-      </ul>
+    <div class="athletics-layout">
+      <div class="athletics-info reveal">
+        <h3>Embry-Riddle Men's Golf Team</h3>
+        <p class="date">August 2024 – May 2028</p>
+        <ul>
+          <li>Commit 25+ hours per week to practice, competition, and travel.</li>
+          <li>Maintain full-time coursework while managing team responsibilities.</li>
+        </ul>
+      </div>
+
+      <div class="stat athletics-stat reveal">
+        <span class="stat-value">NAIA / GSAC</span>
+        <span class="stat-label">Scholar Athlete Award</span>
+      </div>
     </div>
   </section>
 
   <section id="contact" class="content-section">
-    <h2>Contact</h2>
+    <div class="section-head reveal">
+      <p class="eyebrow">06 — Contact</p>
+      <h2>Get in touch</h2>
+    </div>
 
-    <p>Email: <a href="mailto:nergardj@my.erau.edu">nergardj@my.erau.edu</a></p>
-    <p>Phone: <a href="tel:6027999441">(602) 799-9441</a></p>
+    <p class="contact-lead reveal">The best ways to reach me are below.</p>
+
+    <div class="contact-links reveal">
+      <a class="contact-tile" href="mailto:nergardj@my.erau.edu">
+        <span class="contact-label">Email</span>
+        <span class="contact-value">nergardj@my.erau.edu</span>
+        <span class="contact-arrow" aria-hidden="true">↗</span>
+      </a>
+      <a class="contact-tile" href="tel:6027999441">
+        <span class="contact-label">Phone</span>
+        <span class="contact-value">(602) 799-9441</span>
+        <span class="contact-arrow" aria-hidden="true">↗</span>
+      </a>
+    </div>
   </section>
+
+  </main>
 
   <footer>
     <p>© 2026 James Nergard. Built with HTML, CSS, and JavaScript.</p>

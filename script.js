@@ -1,78 +1,86 @@
-const cards = document.querySelectorAll(".project-card, .timeline-item, .athletics-card");
+const navToggle = document.getElementById("nav-toggle");
+const navLinksEl = document.getElementById("nav-links");
 
-cards.forEach((card) => {
-  card.addEventListener("mouseenter", () => {
-    card.style.boxShadow = "0 20px 40px rgba(88, 28, 135, 0.45)";
+function closeMobileNav() {
+  navLinksEl.classList.remove("open");
+  navToggle.setAttribute("aria-expanded", "false");
+  document.body.classList.remove("nav-locked");
+}
+
+if (navToggle && navLinksEl) {
+  navToggle.addEventListener("click", () => {
+    const isOpen = navLinksEl.classList.toggle("open");
+    navToggle.setAttribute("aria-expanded", String(isOpen));
+    document.body.classList.toggle("nav-locked", isOpen);
   });
 
-  card.addEventListener("mouseleave", () => {
-    card.style.boxShadow = "none";
+  navLinksEl.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", closeMobileNav);
   });
-});
 
-const slides = document.querySelectorAll(".hero, .content-section");
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && navLinksEl.classList.contains("open")) {
+      closeMobileNav();
+      navToggle.focus();
+    }
+  });
+}
 
-const slideObserver = new IntersectionObserver(
+// Highlight the nav link for whichever section is currently in view
+const sections = document.querySelectorAll("main section[id]");
+const navLinks = document.querySelectorAll(".nav-links a");
+
+const sectionObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("active");
-      } else {
-        entry.target.classList.remove("active");
+      if (!entry.isIntersecting) return;
+
+      const link = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+      navLinks.forEach((navLink) => navLink.classList.remove("active"));
+
+      if (link) {
+        link.classList.add("active");
       }
     });
   },
-  {
-    threshold: 0.55
-  }
+  { threshold: 0.3, rootMargin: "-25% 0px -55% 0px" }
 );
 
-slides.forEach((slide) => {
-  slideObserver.observe(slide);
-});
+sections.forEach((section) => sectionObserver.observe(section));
 
-const pageSlides = [...document.querySelectorAll(".hero, .content-section")];
+// Staggered scroll-reveal: elements fade/blur in as they enter view,
+// with each element delayed relative to its siblings under the same parent
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const revealElements = document.querySelectorAll(".reveal");
 
-let currentSlide = 0;
-let isScrolling = false;
+if (prefersReducedMotion) {
+  revealElements.forEach((el) => el.classList.add("in-view"));
+} else {
+  const siblingGroups = new Map();
 
-function scrollToSlide(index) {
-  if (index < 0 || index >= pageSlides.length) {
-    return;
-  }
-
-  isScrolling = true;
-  currentSlide = index;
-
-  pageSlides[currentSlide].scrollIntoView({
-    behavior: "smooth",
-    block: "start"
+  revealElements.forEach((el) => {
+    const parent = el.parentElement;
+    if (!siblingGroups.has(parent)) siblingGroups.set(parent, []);
+    siblingGroups.get(parent).push(el);
   });
 
-  window.setTimeout(() => {
-    isScrolling = false;
-  }, 900);
+  siblingGroups.forEach((group) => {
+    group.forEach((el, index) => {
+      el.style.transitionDelay = `${index * 90}ms`;
+    });
+  });
+
+  const revealObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in-view");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15 }
+  );
+
+  revealElements.forEach((el) => revealObserver.observe(el));
 }
-
-window.addEventListener(
-  "wheel",
-  (event) => {
-    if (isScrolling) {
-      event.preventDefault();
-      return;
-    }
-
-    if (Math.abs(event.deltaY) < 20) {
-      return;
-    }
-
-    event.preventDefault();
-
-    if (event.deltaY > 0) {
-      scrollToSlide(currentSlide + 1);
-    } else {
-      scrollToSlide(currentSlide - 1);
-    }
-  },
-  { passive: false }
-);
