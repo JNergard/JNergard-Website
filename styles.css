@@ -17,8 +17,10 @@
   --accent-hover: #a78bfa;
   --accent-soft: #c4b5fd;
 
-  --font-sans: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+  /* One real typeface for the whole site — used everywhere, including
+     the mono-styled labels, so there's a single font, not a pairing. */
+  --font-sans: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
 
   /* shadows tinted to the background hue rather than flat black */
   --shadow-rgb: 6, 4, 16;
@@ -26,6 +28,11 @@
   --shadow-card-hover: 0 1px 0 rgba(244, 242, 249, 0.07) inset, 0 30px 54px -22px rgba(var(--shadow-rgb), 0.8);
 
   --ease: cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* Shared vertical rhythm: one padding scale and one card padding,
+     used everywhere instead of ad-hoc per-component numbers. */
+  --section-pad-y: 80px;
+  --card-pad: 32px;
 }
 
 
@@ -57,24 +64,6 @@ body {
 
   color: var(--text-primary);
   background: var(--bg);
-}
-
-/* Single, restrained ambient glow instead of stacked gradient blobs */
-body::before {
-  content: "";
-
-  position: fixed;
-  inset: 0;
-
-  z-index: -2;
-
-  background: radial-gradient(
-    ellipse 900px 600px at 50% -10%,
-    rgba(139, 92, 246, 0.13),
-    transparent 60%
-  );
-
-  pointer-events: none;
 }
 
 /* Fixed film-grain layer to break up flat digital color */
@@ -159,10 +148,7 @@ header {
   max-width: 94vw;
   padding: 8px;
 
-  background: rgba(18, 15, 27, 0.72);
-
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  background: var(--surface);
 
   border: 1px solid var(--border);
   border-radius: 999px;
@@ -305,7 +291,10 @@ header {
   min-height: 100vh;
   min-height: 100dvh;
 
-  padding: 140px 10% 80px;
+  padding-top: var(--section-pad-y);
+  padding-bottom: var(--section-pad-y);
+  padding-left: 10%;
+  padding-right: 10%;
 
   display: flex;
   flex-direction: column;
@@ -332,7 +321,10 @@ header {
   min-height: 100vh;
   min-height: 100dvh;
 
-  padding: 100px 10% 50px;
+  padding-top: var(--section-pad-y);
+  padding-bottom: var(--section-pad-y);
+  padding-left: 10%;
+  padding-right: 10%;
 
   display: flex;
   flex-direction: column;
@@ -340,7 +332,8 @@ header {
   justify-content: center;
   text-align: center;
 
-  box-shadow: inset 0 1px 0 rgba(244, 242, 249, 0.05);
+  background: var(--bg);
+  border-top: 1px solid var(--border);
 
   scroll-snap-align: start;
   scroll-snap-stop: always;
@@ -348,50 +341,6 @@ header {
 
 .content-section > * {
   width: 100%;
-}
-
-/* Alternating tint bands replace a plain hairline divider — every
-   section boundary changes shade, so the break reads at a glance
-   instead of relying on a thin line lost in a big gap. */
-#about,
-#experience,
-#athletics {
-  background-color: rgba(139, 92, 246, 0.035);
-}
-
-.content-section::before {
-  content: "";
-
-  position: absolute;
-  inset: 0;
-
-  z-index: -1;
-
-  pointer-events: none;
-}
-
-#about::before {
-  background: radial-gradient(ellipse 750px 550px at 88% 0%, rgba(139, 92, 246, 0.09), transparent 62%);
-}
-
-#projects::before {
-  background: radial-gradient(ellipse 900px 650px at 8% 100%, rgba(139, 92, 246, 0.08), transparent 62%);
-}
-
-#experience::before {
-  background: radial-gradient(ellipse 700px 550px at 92% 60%, rgba(139, 92, 246, 0.08), transparent 62%);
-}
-
-#skills::before {
-  background: radial-gradient(ellipse 750px 550px at 12% 10%, rgba(139, 92, 246, 0.08), transparent 62%);
-}
-
-#athletics::before {
-  background: radial-gradient(ellipse 700px 550px at 85% 20%, rgba(139, 92, 246, 0.09), transparent 62%);
-}
-
-#contact::before {
-  background: radial-gradient(ellipse 1000px 700px at 50% 100%, rgba(139, 92, 246, 0.1), transparent 62%);
 }
 
 .eyebrow {
@@ -414,7 +363,7 @@ header {
 }
 
 .section-head {
-  margin-bottom: 34px;
+  margin-bottom: 32px;
 }
 
 .section-head .eyebrow {
@@ -456,7 +405,7 @@ header {
   color: var(--text-primary);
 
   font-size: clamp(3.5rem, 7.5vw, 6.5rem);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.03;
   letter-spacing: -0.02em;
 
@@ -471,7 +420,6 @@ header {
   color: var(--text-secondary);
 
   font-size: 1.4rem;
-  line-height: 1.7;
 }
 
 .hero-buttons {
@@ -555,17 +503,31 @@ header {
   font-weight: 600;
 
   padding-bottom: 3px;
-  background-image: linear-gradient(var(--accent-soft), var(--accent-soft));
-  background-position: 0 100%;
-  background-repeat: no-repeat;
-  background-size: 0% 1px;
 
-  transition: background-size 0.3s var(--ease), color 0.3s var(--ease);
+  transition: color 0.3s var(--ease);
+}
+
+.link-cta::after {
+  content: "";
+
+  position: absolute;
+  left: 0;
+  bottom: 0;
+
+  width: 0;
+  height: 1px;
+
+  background: var(--accent-soft);
+
+  transition: width 0.3s var(--ease);
 }
 
 .link-cta:hover {
   color: var(--accent-soft);
-  background-size: 100% 1px;
+}
+
+.link-cta:hover::after {
+  width: 100%;
 }
 
 .link-cta span {
@@ -610,7 +572,7 @@ p {
   max-width: 640px;
 
   font-size: 1.15rem;
-  line-height: 1.75;
+  line-height: 1.55;
 }
 
 ul {
@@ -619,7 +581,7 @@ ul {
   color: var(--text-secondary);
 
   font-size: 1.15rem;
-  line-height: 1.75;
+  line-height: 1.55;
 }
 
 
@@ -693,7 +655,7 @@ ul {
 .project-card {
   position: relative;
 
-  padding: 28px;
+  padding: var(--card-pad);
 
   display: flex;
   flex-direction: column;
@@ -842,7 +804,6 @@ ul {
 
 .timeline-item ul {
   margin-top: 10px;
-  line-height: 1.55;
 }
 
 .date {
@@ -863,7 +824,7 @@ ul {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 44px;
+  gap: 40px;
 }
 
 .athletics-stat {
@@ -875,7 +836,7 @@ ul {
   flex-direction: column;
   gap: 14px;
 
-  padding: 38px;
+  padding: var(--card-pad);
 
   background: var(--surface);
   border: 1px solid var(--border);
@@ -887,13 +848,11 @@ ul {
   transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), border-color 0.3s var(--ease);
 }
 
-/*
 .athletics-stat:hover {
   transform: translateY(-4px);
   border-color: var(--border-hover);
   box-shadow: var(--shadow-card-hover);
 }
-*/
 
 /* =========================================
    SKILLS
@@ -951,14 +910,12 @@ ul {
     transform 0.2s var(--ease);
 }
 
-/*
 .skill:hover {
   color: var(--text-primary);
   background: var(--surface-hover);
   border-color: var(--accent);
   transform: translateY(-2px);
 }
-*/
 
 /* =========================================
    CONTACT SECTION
@@ -988,7 +945,7 @@ ul {
   flex-direction: column;
   gap: 12px;
 
-  padding: 36px;
+  padding: var(--card-pad);
 
   background: var(--surface);
   border: 1px solid var(--border);
@@ -1004,7 +961,6 @@ ul {
     box-shadow 0.3s var(--ease);
 }
 
-/*
 .contact-tile:hover {
   transform: translateY(-4px);
 
@@ -1013,7 +969,6 @@ ul {
 
   box-shadow: var(--shadow-card-hover);
 }
-*/
 
 .contact-label {
   color: var(--text-muted);
@@ -1072,7 +1027,7 @@ footer {
   position: relative;
   z-index: 3;
 
-  padding: 32px 10% 40px;
+  padding: 32px 10%;
   text-align: center;
 
   background: var(--bg);
@@ -1101,9 +1056,7 @@ footer p {
   justify-content: center;
   padding: 40px;
 
-  background: rgba(6, 4, 16, 0.88);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(6, 4, 16, 0.96);
 
   opacity: 0;
   visibility: hidden;
@@ -1238,9 +1191,7 @@ body.lightbox-open {
     justify-content: center;
     gap: 30px;
 
-    background: rgba(10, 8, 18, 0.94);
-    backdrop-filter: blur(22px);
-    -webkit-backdrop-filter: blur(22px);
+    background: var(--bg);
 
     opacity: 0;
     transform: translateY(-10px);
@@ -1280,25 +1231,16 @@ body.lightbox-open {
     overflow: hidden;
   }
 
-  .hero {
-    padding: 110px 7% 40px;
-  }
-
-  .content-section {
-    padding: 64px 7% 20px;
+  :root {
+    --section-pad-y: 56px;
   }
 
   .section-head {
-    margin-bottom: 16px;
-  }
-
-  .content-section p,
-  .content-section ul {
-    line-height: 1.55;
+    margin-bottom: 20px;
   }
 
   .about-layout {
-    gap: 26px;
+    gap: 28px;
   }
 
   .about-stats {
@@ -1316,7 +1258,6 @@ body.lightbox-open {
 
   .hero-text {
     font-size: 1.2rem;
-    line-height: 1.65;
   }
 
   h2 {
@@ -1327,10 +1268,6 @@ body.lightbox-open {
     flex-direction: column;
     align-items: center;
     gap: 22px;
-  }
-
-  .project-card--featured {
-    padding: 30px;
   }
 
   /* A vertical stack of 3 full cards is too tall for one
@@ -1378,7 +1315,6 @@ body.lightbox-open {
 
   .timeline-item ul {
     margin-top: 6px;
-    line-height: 1.45;
   }
 }
 
@@ -1392,28 +1328,9 @@ body.lightbox-open {
 ========================================= */
 
 @media (max-height: 780px) and (min-width: 761px) {
-  .hero,
-  .content-section {
-    min-height: 100vh;
-    min-height: 100dvh;
-
-    padding-top: 100px;
-    padding-bottom: 40px;
-  }
-
-  .project-card,
-  .athletics-stat,
-  .contact-tile {
-    padding: 24px;
-  }
-
-  .project-card--featured {
-    padding: 32px;
-  }
-
-  p,
-  ul {
-    line-height: 1.6;
+  :root {
+    --section-pad-y: 56px;
+    --card-pad: 24px;
   }
 }
 
