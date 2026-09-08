@@ -48,7 +48,21 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 110px;
 
+  /* mandatory + scroll-snap-stop: always (below) covers touch,
+     keyboard, and scrollbar dragging — always lands on a section,
+     never skips one. Mouse wheel / trackpad is handled separately in
+     script.js with its own animation so the snap speed is
+     controllable — CSS has no property for that. */
   scroll-snap-type: y mandatory;
+}
+
+/* Toggled on by script.js for the duration of its own wheel-driven
+   scroll animation — without this, the browser's native snap tries
+   to "correct" every intermediate frame of the JS animation, fighting
+   it and producing a jerky, half-native half-scripted jump instead of
+   one smooth motion. */
+html.js-snap-suspended {
+  scroll-snap-type: none;
 }
 
 body {
@@ -641,12 +655,12 @@ ul {
 
 .project-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
 
-  gap: 20px;
+  gap: 14px;
 
   width: 100%;
-  max-width: 1080px;
+  max-width: 900px;
   margin: 0 auto;
 
   text-align: left;
@@ -655,7 +669,7 @@ ul {
 .project-card {
   position: relative;
 
-  padding: var(--card-pad);
+  padding: 22px;
 
   display: flex;
   flex-direction: column;
@@ -688,7 +702,7 @@ ul {
   align-items: center;
   gap: 14px;
 
-  margin-bottom: 18px;
+  margin-bottom: 10px;
 }
 
 .project-index {
@@ -711,12 +725,17 @@ ul {
 
 .project-card h3 {
   margin-top: 0;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
+
+  font-size: 1.3rem;
 }
 
 .project-card p {
-  margin-bottom: 16px;
+  margin-bottom: 10px;
   max-width: 100%;
+
+  font-size: 1.05rem;
+  line-height: 1.45;
 }
 
 .project-card a {
@@ -848,11 +867,6 @@ ul {
   transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), border-color 0.3s var(--ease);
 }
 
-.athletics-stat:hover {
-  transform: translateY(-4px);
-  border-color: var(--border-hover);
-  box-shadow: var(--shadow-card-hover);
-}
 
 /* =========================================
    SKILLS
@@ -910,12 +924,7 @@ ul {
     transform 0.2s var(--ease);
 }
 
-.skill:hover {
-  color: var(--text-primary);
-  background: var(--surface-hover);
-  border-color: var(--accent);
-  transform: translateY(-2px);
-}
+
 
 /* =========================================
    CONTACT SECTION

@@ -126,3 +126,84 @@ if (prefersReducedMotion) {
 
   revealElements.forEach((el) => revealObserver.observe(el));
 }
+
+// Wheel/trackpad section snapping with a slow, custom-eased animation.
+// CSS scroll-snap has no property for animation duration, so mouse
+// wheel and trackpad scrolling is driven here instead — touch,
+// keyboard, and scrollbar dragging still use the native CSS snap
+// (mandatory + scroll-snap-stop: always in styles.css).
+if (!prefersReducedMotion) {
+  const snapSections = Array.from(document.querySelectorAll(".hero, .content-section"));
+  const SNAP_DURATION = 550;
+  let isSnapping = false;
+
+  const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+  function currentSectionIndex() {
+    const y = window.scrollY;
+    let closest = 0;
+    let closestDistance = Infinity;
+
+    snapSections.forEach((section, index) => {
+      const distance = Math.abs(section.offsetTop - y);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closest = index;
+      }
+    });
+
+    return closest;
+  }
+
+  function animateScrollTo(targetY) {
+    isSnapping = true;
+    // Native CSS scroll-snap would otherwise try to "correct" every
+    // intermediate frame of this animation — suspend it for the
+    // duration of the scripted scroll and let it re-engage once we
+    // land exactly on the target section.
+    document.documentElement.classList.add("js-snap-suspended");
+
+    const startY = window.scrollY;
+    const distance = targetY - startY;
+    const startTime = performance.now();
+
+    function step(now) {
+      const progress = Math.min((now - startTime) / SNAP_DURATION, 1);
+
+      window.scrollTo({ top: startY + distance * easeInOutCubic(progress), behavior: "instant" });
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        isSnapping = false;
+        document.documentElement.classList.remove("js-snap-suspended");
+      }
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  window.addEventListener(
+    "wheel",
+    (event) => {
+      // A predominantly horizontal gesture (e.g. swiping through the
+      // mobile project cards on a trackpad) isn't page navigation.
+      if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+
+      event.preventDefault();
+
+      if (isSnapping) return;
+
+      const index = currentSectionIndex();
+      const targetIndex = Math.min(
+        Math.max(index + (event.deltaY > 0 ? 1 : -1), 0),
+        snapSections.length - 1
+      );
+
+      if (targetIndex === index) return;
+
+      animateScrollTo(snapSections[targetIndex].offsetTop);
+    },
+    { passive: false }
+  );
+}
