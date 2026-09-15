@@ -183,9 +183,15 @@ if (!prefersReducedMotion) {
     requestAnimationFrame(step);
   }
 
+  const isMobileViewport = () => window.matchMedia("(max-width: 760px)").matches;
+
   window.addEventListener(
     "wheel",
     (event) => {
+      // Scroll snapping is desktop-only (see styles.css) — mobile
+      // scrolls freely, so leave wheel input alone there too.
+      if (isMobileViewport()) return;
+
       // A predominantly horizontal gesture (e.g. swiping through the
       // mobile project cards on a trackpad) isn't page navigation.
       if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;

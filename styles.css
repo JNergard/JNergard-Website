@@ -1174,6 +1174,15 @@ body.lightbox-open {
 ========================================= */
 
 @media (max-width: 760px) {
+  /* Mandatory scroll-snap fights touch-scroll momentum on phones —
+     every fling gets caught and yanked to the nearest section instead
+     of gliding, which reads as janky. Desktop keeps it; mobile scrolls
+     freely (the horizontal snap on the project-card carousel below is
+     unrelated and stays on). */
+  html {
+    scroll-snap-type: none;
+  }
+
   header {
     padding-top: 14px;
   }
